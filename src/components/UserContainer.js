@@ -18,7 +18,7 @@ class UserContainer extends Component {
     event.preventDefault()
     fetchUserEmails(this.state.input).then(user => {
       this.setState({ user })
-      console.log(this.state.user)
+      console.log(this.state.user.emails)
     })
   }
 
