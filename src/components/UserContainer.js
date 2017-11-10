@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { fetchUserEmails } from '../services/UserServices.js'
+import EmailContainer from './emails/EmailContainer.js'
 
 class UserContainer extends Component {
 
@@ -18,11 +19,16 @@ class UserContainer extends Component {
     event.preventDefault()
     fetchUserEmails(this.state.input).then(user => {
       this.setState({ user })
-      console.log(this.state.user.emails)
     })
   }
 
   render(){
+    console.log("in User", this.state.user)
+    let emailList = ""
+    if(Object.keys(this.state.user).length > 0 ){
+      emailList = <EmailContainer sent_emails={this.state.user.sent_emails} received_emails={this.state.user.received_emails}/>
+      }
+
     return(
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -30,6 +36,7 @@ class UserContainer extends Component {
           <input type="text" onChange={this.handleChange} value={this.state.input} />
           <input type="submit" />
         </form>
+        {emailList}
       </div>
 
     )
