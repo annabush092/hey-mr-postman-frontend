@@ -9,10 +9,10 @@ class EmailList extends Component{
       if(this.props.readEmails.includes(email.id)){
         emailProps.read = true
       }
-      return <EmailCard key={idx} {...emailProps} onReadEmail={this.props.handleOpenEmail}/>
+      return <EmailCard key={idx} {...emailProps} onReadEmail={this.props.handleOpenEmail} emailFilter={this.props.emailFilter}/>
     })
     return(
-      <div>
+      <div key={this.props.emailFilter}>
         {emailItems}
       </div>
     )

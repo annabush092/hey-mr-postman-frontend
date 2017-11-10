@@ -38,7 +38,7 @@ class EmailContainer extends Component{
             <option value="sent_emails">Sent</option>
           </select>
         </form>
-        <EmailList emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail}/>
+        <EmailList emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail} emailFilter={this.state.emailFilter}/>
       </div>
     )
   }
