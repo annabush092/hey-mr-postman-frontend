@@ -50,3 +50,15 @@ const updateEmail = (emailProps) => {
   })
   .then(res => res.json())
 }
+
+// Destroy :
+
+export const deleteEmail = (emailID) => {
+  return fetch(`http://localhost:3000/api/v1/emails/${emailID}`, {
+    method: "DELETE",
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())
+}
