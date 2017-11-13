@@ -53,7 +53,9 @@ props = {
       <div>
         <NewEmailForm user={this.props.user}/>
         <FilterForm handleSelect={this.handleSelect} emailFilter={this.state.emailFilter}/>
-        <EmailList emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail} emailFilter={this.state.emailFilter}/>
+        <div id="email-list" style={{width: "500px", height: "500px"}}>
+          <EmailList emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail} emailFilter={this.state.emailFilter}/>
+        </div>
       </div>
     )
   }
