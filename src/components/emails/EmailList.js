@@ -180,6 +180,7 @@ class EmailList extends React.Component {
   render() {
     return(
     <div>
+    "in email list"
     </div>
     )
   }
