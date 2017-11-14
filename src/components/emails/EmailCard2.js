@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import CSS3D from 'css3d';
-import OrbitControls from 'three-orbitcontrols'
 import { randomColor } from 'randomcolor'
 // import '../../App.css';
 import EmailCard from './EmailCard.js'
 
-export function emailCardTwo(props, scene) {
+export function emailCardTwo(props, scene, addToArray) {
 
     //HTML TO APPEND
     let element = document.createElement('div');
     let button = document.createElement('BUTTON');
     button.innerHTML= "See details"
-    // console.log("in card", props)
     element.innerHTML = `
     <h3>From: ${props.user.name}</h3>
     <p>Email: ${props.user.email_address}</p>
@@ -42,25 +40,11 @@ export function emailCardTwo(props, scene) {
           Math.random() * 600 - 300,
           Math.random() * 800 - 400)
 
+    addToArray(div);
     scene.add(div);
   }
 
-  //   //CSSRENDERER
-  //   renderer2 = new CSS3D.CSS3DRenderer();
-  //   renderer2.setSize(window.innerWidth, window.innerHeight);
-  //   renderer2.domElement.style.position = 'absolute';
-  //   renderer2.domElement.style.top = 0;
-  //   console.log("IPOANDOINAOIDNAOIDNAOIDN");
-  //   document.body.appendChild(renderer2.domElement);
-  // }
-  // var renderer = new CSS3D.WebGLRenderer({ antialias: true });
-  // renderer.setClearColor(0xffffff, 1)
-  // renderer.setSize(window.innerWidth, window.innerHeight);
-  // renderer.domElement.style.zIndex = 5;
-  // document.body.appendChild(renderer.domElement);
 
-  //SCENE
-  // var scene = new CSS3D.Scene();
 
   //CUBE OBJECT
   // var geometry = new CSS3D.BoxGeometry(300, 125, 10) //maybe CubeGeometry
@@ -83,25 +67,3 @@ export function emailCardTwo(props, scene) {
   //LIGHT2
   // var pointLight = new CSS3D.PointLight(0xffffff, 0.5)
   // cssScene.add(pointLight);
-
-
-  //RENDER LOOP
-  // renderScene = () => {
-  //   renderer2.render(cssScene, camera)
-  //   requestAnimationFrame(renderScene)
-  // }
-
-  // renderer.render(scene, camera);
-//   render() {
-//     console.log("in emailcard2", this.div)
-//     return(
-//       <div>
-//       HELLO
-//       </div>
-//     )
-//   }
-//
-// }
-//
-// export default EmailCardTwo
-// // requestAnimationFrame(this.renderScene) from return
