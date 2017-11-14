@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import {Route, Redirect} from 'react-router-dom'
+import NavBar from '../NavBar.js'
 import EmailList from './EmailList.js'
 import FilterForm from './FilterForm.js'
 import NewEmailForm from './NewEmailForm.js'
@@ -48,17 +50,34 @@ props = {
   }
 
   render(){
+    const currentPath = this.props.match.url
+    const filterRoute = this.state.emailFilter.split("_")[0]
     const filteredEmails = this.props[this.state.emailFilter]
     return(
       <div>
-        <NewEmailForm user={this.props.user}/>
+        <NavBar/>
+        <h2>Welcome, {this.props.user.name}</h2>
         <FilterForm handleSelect={this.handleSelect} emailFilter={this.state.emailFilter}/>
-        <div id="email-list" style={{width: "500px", height: "500px"}}>
-          <EmailList emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail} emailFilter={this.state.emailFilter}/>
-        </div>
+        <Route path={currentPath} render={()=>(
+          (this.state.emailFilter === "received_emails") ? (
+            <Redirect to={currentPath + '/received'}/>
+          ) : (
+            <Redirect to={currentPath + '/sent'}/>
+          )
+        )}/>
+        <Route exact path={currentPath + `/${filterRoute}`} render={()=>(
+          <EmailList emails={filteredEmails}/>
+        )}/>
+        <Route exact path={currentPath + '/new'} render={()=>(
+          <NewEmailForm user={this.props.user}/>
+        )}/>
       </div>
     )
   }
 }
 
 export default EmailContainer
+//
+// <div id="email-list" style={{width: "500px", height: "500px"}}>
+//   <EmailList emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail} emailFilter={this.state.emailFilter}/>
+// </div>
