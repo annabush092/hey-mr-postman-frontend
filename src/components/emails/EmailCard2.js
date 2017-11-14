@@ -4,7 +4,7 @@ import { randomColor } from 'randomcolor'
 // import '../../App.css';
 import EmailCard from './EmailCard.js'
 
-export function emailCardTwo(props, scene, addToArray) {
+export function emailCardTwo(props, cssScene, glScene, addToArray) {
 
     //HTML TO APPEND
     let element = document.createElement('div');
@@ -21,6 +21,8 @@ export function emailCardTwo(props, scene, addToArray) {
 
     let colors = randomColor();
     element.style.cssText = `
+        width: 300px;
+        height: 200px;
         background: ${colors};
         color: #E60000;
         fontFamily: Arial, Helvetica, Sans-serif;
@@ -35,13 +37,25 @@ export function emailCardTwo(props, scene, addToArray) {
 
     let div = new CSS3D.CSS3DObject(element);
 
-    div.position.set(
+    //CUBE OBJECT
+    var cubeGeometry = new CSS3D.CubeGeometry(300, 200, 10) //maybe CubeGeometry
+    var cubeMaterial = new CSS3D.MeshLambertMaterial({color: "#2a63bf"});
+    var cubeMesh = new CSS3D.Mesh(cubeGeometry, cubeMaterial)
+
+
+
+
+
+    cubeMesh.position.set(
           Math.random() * 1000 - 500,
           Math.random() * 600 - 300,
           Math.random() * 800 - 400)
 
-    addToArray(div);
-    scene.add(div);
+    div.position = cubeMesh.position
+
+    addToArray(cubeMesh);
+    cssScene.add(div);
+    glScene.add(cubeMesh)
   }
 
 
