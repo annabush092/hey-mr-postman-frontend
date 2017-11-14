@@ -48,6 +48,7 @@ class EmailList extends React.Component {
     //Dragging functions
 
     document.onmousemove = (event) => {
+      event.preventDefault()
 
       var mouse_x = ( event.clientX / window.innerWidth ) * 2 - 1;
       var mouse_y = - ( event.clientY / window.innerHeight) * 2 + 1;
@@ -58,8 +59,10 @@ class EmailList extends React.Component {
       var raycaster = new CSS3D.Raycaster( this.camera.position, vector.sub( this.camera.position ).normalize() );
 
       if(selectedObject) {
-        var intersects = this.raycaster.intersectObject ( plane );
-        selectedObject.position.copy(intersects[ 0 ].point.sub( offset ) );
+        var intersects = raycaster.intersectObject(plane);
+        if(intersects[0]){
+          selectedObject.position.copy(intersects[0].point.sub( offset ) )
+        }
       } else if (this.emailsArray) {
         var intersects = raycaster.intersectObjects(this.emailsArray, true)
         console.log(intersects)
@@ -70,12 +73,29 @@ class EmailList extends React.Component {
       }
     }
 
-    // document.onmousedown = (event) => {
-    //   var mouse_x = (event.clientX / window.innerWidth) * 2 - 1;
-    //   var mouse_y = - (event.clientY / window.innerHeight) * 2 + 1;
-    //   var vector = new CSS3D.
-    // }
+    document.onmousedown = (event) => {
+      event.preventDefault()
+      var mouse_x = (event.clientX / window.innerWidth) * 2 - 1;
+      var mouse_y = - (event.clientY / window.innerHeight) * 2 + 1;
+      var vector = new CSS3D.Vector3(mouse_x, mouse_y, 0.5);
+      projector.unprojectVector(vector, this.camera);
+      var raycaster = new CSS3D.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
+      var intersects = raycaster.intersectObjects(this.emailsArray)
 
+      if (intersects.length > 0) {
+        this.controls.enabled = false;
+        selectedObject = intersects[0].object;
+
+        var intersects = raycaster.intersectObject(plane);
+        offset.copy(intersects[0].point).sub(plane.position)
+      }
+    }
+
+    document.onmouseup = (event) => {
+      event.preventDefault()
+      this.controls.enabled = true;
+      selectedObject = null;
+    }
     const controls = new TrackballControls(this.camera);
 
     controls.rotateSpeed = 1.0;
