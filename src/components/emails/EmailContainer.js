@@ -66,7 +66,7 @@ props = {
           )
         )}/>
         <Route exact path={currentPath + `/${filterRoute}`} render={()=>(
-          <EmailList emails={filteredEmails}/>
+          <EmailList emails={filteredEmails} readEmails={this.state.readEmails}/>
         )}/>
         <Route exact path={currentPath + '/new'} render={()=>(
           <NewEmailForm user={this.props.user}/>
