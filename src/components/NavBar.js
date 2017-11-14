@@ -1,13 +1,12 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import './NavBar.css'
 
 export default class NavBar extends React.Component {
   render() {
     return (
-      <div>
+      <div id="NavBar">
         <NavLink to="/sign-in">Sign Out</NavLink>
-        <NavLink to="/users/:id/emails/received">Inbox</NavLink>
-        <NavLink to="/users/:id/emails/sent">Sent Mail</NavLink>
         <NavLink to="/users/:id/emails/new">Compose Mail</NavLink>
       </div>
     )

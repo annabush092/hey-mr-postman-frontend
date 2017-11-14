@@ -11,6 +11,7 @@ class UserContainer extends Component {
   }
 
   submitUserInfo = (input) => {
+    console.log("submitted form")
     fetchUserEmails(input).then(user => {
       this.setState({ user })
     })
