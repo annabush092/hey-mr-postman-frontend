@@ -8,7 +8,14 @@ class EmailList extends React.Component {
 
   componentDidMount() {
 
-    this.canvas = document.getElementById("Canvas")
+    this.canvas = document.createElement('div')
+    this.canvas.setAttribute("id", "Canvas")
+
+    this.canvasContainer = document.getElementById('CanvasContainer')
+    this.canvasContainer.appendChild(this.canvas)
+
+
+    // this.canvas = document.getElementById("Canvas")
 
     this.canvasArea = this.canvas.getBoundingClientRect()
 
@@ -50,7 +57,8 @@ class EmailList extends React.Component {
 
     //Dragging functions
 
-    this.canvas.onmousemove = (event) => {
+    this.canvas.onmousemove = mouseMoveFxn.bind(this)
+    function mouseMoveFxn(event) {
       event.preventDefault()
 
       var boundingRect = this.canvas.getBoundingClientRect();
@@ -83,7 +91,8 @@ class EmailList extends React.Component {
       }
     }
 
-    this.canvas.onmousedown = (event) => {
+    this.canvas.onmousedown = mouseDownFxn.bind(this)
+    function mouseDownFxn(event) {
       event.preventDefault()
 
       var boundingRect = this.canvas.getBoundingClientRect();
@@ -111,11 +120,13 @@ class EmailList extends React.Component {
       }
     }
 
-    this.canvas.onmouseup = (event) => {
+    this.canvas.onmouseup = mouseUpFxn.bind(this)
+    function mouseUpFxn(event) {
       event.preventDefault()
       this.controls.enabled = true;
       selectedObject = null;
     }
+
     const controls = new TrackballControls(this.camera, this.canvas);
 
     controls.rotateSpeed = 1.0;
@@ -138,7 +149,7 @@ class EmailList extends React.Component {
     this.renderer.domElement.style.zIndex = 1;
     this.canvas.appendChild(this.renderer.domElement);
 
-console.log("renderer: ", this.renderer.domElement)
+// console.log("renderer: ", this.renderer.domElement)
 
     //CSSRENDERER
     this.renderer2 = new CSS3D.CSS3DRenderer();
@@ -175,6 +186,16 @@ console.log("renderer: ", this.renderer.domElement)
   addToArray = (obj) => {
     this.emailsArray.push(obj)
   }
+
+  componentWillUnmount() {
+    // this.canvas.removeEventListener('onmousemove', this.mouseMoveFxn)
+    // this.canvas.removeEventListener('onmouseup', this.mouseUpFxn)
+    // this.canvas.removeEventListener('onmousedown', this.mouseDownFxn)
+    this.canvas.removeChild(this.renderer.domElement)
+    this.canvas.removeChild(this.renderer2.domElement)
+    this.canvasContainer.removeChild(this.canvas)
+
+ }
 
   render() {
     return(

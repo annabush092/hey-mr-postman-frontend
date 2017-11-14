@@ -1,3 +1,14 @@
 #NavBar {
   background-color: black;
+  color: white;
+
+}
+
+#NavBar a{
+  color: white;
+  text-decoration: none;
+}
+
+#NavBar ul{
+    list-style-type: none;
 }
