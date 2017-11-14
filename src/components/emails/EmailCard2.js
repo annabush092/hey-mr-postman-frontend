@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
+
 import CSS3D from 'css3d';
 import { randomColor } from 'randomcolor'
-// import '../../App.css';
-import EmailCard from './EmailCard.js'
 
 export function emailCardTwo(props, cssScene, glScene, addToArray) {
 

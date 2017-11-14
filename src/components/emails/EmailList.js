@@ -1,15 +1,25 @@
 import React from 'react'
 import CSS3D from 'css3d';
-// import OrbitControls from 'three-orbitcontrols'
-import EmailCard from './EmailCard.js'
 import {emailCardTwo} from './EmailCard2.js'
-import ReactDOM from 'react-dom';
 import TrackballControls from '../../ref/trackball';
 
 
 class EmailList extends React.Component {
 
   componentDidMount() {
+
+    this.canvas = document.createElement('div')
+    this.canvas.setAttribute("id", "Canvas")
+
+    this.canvasContainer = document.getElementById('CanvasContainer')
+    this.canvasContainer.appendChild(this.canvas)
+
+
+    // this.canvas = document.getElementById("Canvas")
+
+    this.canvasArea = this.canvas.getBoundingClientRect()
+
+
 
 
     //CSS3D SCENE
@@ -19,8 +29,8 @@ class EmailList extends React.Component {
     this.glScene = new CSS3D.Scene();
 
     //CAMERA
-    this.camera = new CSS3D.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-    this.camera.position.set(0, 0, 500)
+    this.camera = new CSS3D.PerspectiveCamera(45, this.canvasArea.width / this.canvasArea.height, 1, 1000);
+    this.camera.position.set(0, 0, 2000)
     this.camera.lookAt(this.glScene.position)
 
     // //LIGHT1
@@ -47,10 +57,20 @@ class EmailList extends React.Component {
 
     //Dragging functions
 
-    document.onmousemove = (event) => {
+    this.canvas.onmousemove = mouseMoveFxn.bind(this)
+    function mouseMoveFxn(event) {
+      event.preventDefault()
 
-      var mouse_x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      var mouse_y = - ( event.clientY / window.innerHeight) * 2 + 1;
+      var boundingRect = this.canvas.getBoundingClientRect();
+      var x = (event.clientX - boundingRect.left)
+      var y = (event.clientY - boundingRect.top)
+
+      var mouse_x = ( (x / this.canvasArea.width) * 2 - 1);
+      var mouse_y = - ( y / this.canvasArea.height) * 2 + 1;
+
+      // console.log("clientX: ", event.clientX)
+      // console.log("canvas", this.canvasArea.width)
+      // console.log("mouse_x", mouse_x)
 
       var vector = new CSS3D.Vector3( mouse_x, mouse_y, 0.5)
       projector.unprojectVector( vector, this.camera)
@@ -58,11 +78,12 @@ class EmailList extends React.Component {
       var raycaster = new CSS3D.Raycaster( this.camera.position, vector.sub( this.camera.position ).normalize() );
 
       if(selectedObject) {
-        var intersects = this.raycaster.intersectObject ( plane );
-        selectedObject.position.copy(intersects[ 0 ].point.sub( offset ) );
+        var intersects = raycaster.intersectObject(plane);
+        if(intersects[0]){
+          selectedObject.position.copy(intersects[0].point.sub( offset ) )
+        }
       } else if (this.emailsArray) {
-        var intersects = raycaster.intersectObjects(this.emailsArray, true)
-        console.log(intersects)
+        intersects = raycaster.intersectObjects(this.emailsArray, true)
         if ( intersects.length > 0 ) {
           plane.position.copy( intersects[0].object.position);
           plane.lookAt( this.camera.position );
@@ -70,13 +91,43 @@ class EmailList extends React.Component {
       }
     }
 
-    // document.onmousedown = (event) => {
-    //   var mouse_x = (event.clientX / window.innerWidth) * 2 - 1;
-    //   var mouse_y = - (event.clientY / window.innerHeight) * 2 + 1;
-    //   var vector = new CSS3D.
-    // }
+    this.canvas.onmousedown = mouseDownFxn.bind(this)
+    function mouseDownFxn(event) {
+      event.preventDefault()
 
-    const controls = new TrackballControls(this.camera);
+      var boundingRect = this.canvas.getBoundingClientRect();
+
+      console.log("CANVAS: ", boundingRect)
+
+      var x = (event.clientX - boundingRect.left)
+      var y = (event.clientY - boundingRect.top)
+
+      var mouse_x = ( (x / this.canvasArea.width) * 2 - 1);
+      var mouse_y = - ( y / this.canvasArea.height) * 2 + 1;
+
+
+      var vector = new CSS3D.Vector3(mouse_x, mouse_y, 0.5);
+      projector.unprojectVector(vector, this.camera);
+      var raycaster = new CSS3D.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
+      var intersects = raycaster.intersectObjects(this.emailsArray)
+
+      if (intersects.length > 0) {
+        this.controls.enabled = false;
+        selectedObject = intersects[0].object;
+
+        intersects = raycaster.intersectObject(plane);
+        offset.copy(intersects[0].point).sub(plane.position)
+      }
+    }
+
+    this.canvas.onmouseup = mouseUpFxn.bind(this)
+    function mouseUpFxn(event) {
+      event.preventDefault()
+      this.controls.enabled = true;
+      selectedObject = null;
+    }
+
+    const controls = new TrackballControls(this.camera, this.canvas);
 
     controls.rotateSpeed = 1.0;
     controls.zoomSpeed = 1.2;
@@ -91,18 +142,26 @@ class EmailList extends React.Component {
     //WEBGLRENDERER
     this.renderer = new CSS3D.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor(0xffffff, 1)
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    // this.renderer.domElement.style.position = 'absolute';//not supposed to be here
-    // this.renderer.domElement.style.top = 0;//not supposed to be here
-    this.renderer.domElement.style.zIndex = 5;
-    document.body.appendChild(this.renderer.domElement);
+    this.renderer.setSize(this.canvasArea.width, this.canvasArea.height);
+    this.renderer.domElement.style.position = 'absolute';//not supposed to be here
+    this.renderer.domElement.style.top = 0;//not supposed to be here
+    this.renderer.domElement.style.right = 0; //mabye
+    this.renderer.domElement.style.zIndex = 1;
+    this.canvas.appendChild(this.renderer.domElement);
+
+// console.log("renderer: ", this.renderer.domElement)
 
     //CSSRENDERER
     this.renderer2 = new CSS3D.CSS3DRenderer();
-    this.renderer2.setSize(window.innerWidth, window.innerHeight);
+    this.renderer2.setSize(this.canvasArea.width, this.canvasArea.height);
     this.renderer2.domElement.style.position = 'absolute';
     this.renderer2.domElement.style.top = 0;
-    document.body.appendChild(this.renderer2.domElement);
+    this.renderer.domElement.style.right = 0; //mabye
+    this.renderer2.domElement.style.zIndex = 5;
+    this.canvas.appendChild(this.renderer2.domElement);
+
+    console.log("renderer2: ", this.renderer2.domElement)
+
 
     //Render Children
     this.props.emails.forEach((email, idx) => {
@@ -127,6 +186,16 @@ class EmailList extends React.Component {
   addToArray = (obj) => {
     this.emailsArray.push(obj)
   }
+
+  componentWillUnmount() {
+    // this.canvas.removeEventListener('onmousemove', this.mouseMoveFxn)
+    // this.canvas.removeEventListener('onmouseup', this.mouseUpFxn)
+    // this.canvas.removeEventListener('onmousedown', this.mouseDownFxn)
+    this.canvas.removeChild(this.renderer.domElement)
+    this.canvas.removeChild(this.renderer2.domElement)
+    this.canvasContainer.removeChild(this.canvas)
+
+ }
 
   render() {
     return(
