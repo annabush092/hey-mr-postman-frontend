@@ -141,7 +141,7 @@ class EmailList extends React.Component {
 
     //WEBGLRENDERER
     this.renderer = new CSS3D.WebGLRenderer({ antialias: true });
-    this.renderer.setClearColor(0xffffff, 1)
+    this.renderer.setClearColor(0xff0000, 1)
     this.renderer.setSize(this.canvasArea.width, this.canvasArea.height);
     this.renderer.domElement.style.position = 'absolute';//not supposed to be here
     this.renderer.domElement.style.top = 0;//not supposed to be here

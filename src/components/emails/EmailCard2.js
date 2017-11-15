@@ -7,6 +7,7 @@ export function emailCardTwo(props, cssScene, glScene, addToArray) {
     //HTML TO APPEND
     let element = document.createElement('div');
     let button = document.createElement('BUTTON');
+
     button.innerHTML= "See details"
     element.innerHTML = `
     <h3>From: ${props.user.name}</h3>
@@ -17,20 +18,47 @@ export function emailCardTwo(props, cssScene, glScene, addToArray) {
     element.appendChild(button)
     element.className = "three-div"
 
-    let colors = randomColor();
+    let emailContent = document.createElement('div')
+    emailContent.setAttribute("id", `email-content-${props.user.id}` )
+    element.appendChild(emailContent)
+
+    let emailColor = randomColor();
     element.style.cssText = `
         width: 300px;
         height: 200px;
-        background: ${colors};
+        background: ${emailColor};
         color: #E60000;
         fontFamily: Arial, Helvetica, Sans-serif;
         fontSize: 2em;
         padding: 2em;
+        overflow: scroll;
       `
 
+
+    // let contentDisplay = "none"
+    // emailContent.style.cssText = `
+    //     display: ${contentDisplay}
+    // `
+
+
     button.addEventListener("click", ()=> {
-      console.log("oink oink")
-      element.innerHTML += `<p> ${props.content} </p>`
+      const  myEmailContent = document.getElementById(`email-content-${props.user.id}`)
+
+      if (myEmailContent.innerHTML === ""){
+        myEmailContent.innerHTML += props.content
+
+        myEmailContent.style.cssText = `
+          background: ${emailColor};
+        `
+      } else {
+        myEmailContent.innerHTML = ""
+      }
+
+
+      console.log("myEmailContent", typeof myEmailContent.innerHTML)
+
+      // contentDisplay === "none" ? (contentDisplay = "block") : (contentDisplay = "none")
+      // element.innerHTML += `<p> ${props.content} </p>`
     })
 
     let div = new CSS3D.CSS3DObject(element);
