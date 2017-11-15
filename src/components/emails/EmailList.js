@@ -14,13 +14,7 @@ class EmailList extends React.Component {
     this.canvasContainer = document.getElementById('CanvasContainer')
     this.canvasContainer.appendChild(this.canvas)
 
-
-    // this.canvas = document.getElementById("Canvas")
-
     this.canvasArea = this.canvas.getBoundingClientRect()
-
-
-
 
     //CSS3D SCENE
     this.cssScene = new CSS3D.Scene();
@@ -33,30 +27,28 @@ class EmailList extends React.Component {
     this.camera.position.set(0, 0, 2000)
     this.camera.lookAt(this.glScene.position)
 
-    // //LIGHT1
+    //LIGHT1
     var keyLight = new CSS3D.AmbientLight(0xffffff, 0.5)
     keyLight.position.set(0, 0, 500)
     this.glScene.add(keyLight);
 
-    // //LIGHT2
+    //LIGHT2
     var pointLight = new CSS3D.PointLight(0xffffff, 0.5)
     pointLight.position.set(0, 0, 500)
     this.glScene.add(pointLight);
 
-
+    //INVISIBLE HELPER PLANE
     var plane;
     var selectedObject;
     var projector = new CSS3D.Projector();
     var offset = new CSS3D.Vector3();
     this.emailsArray = [];
 
-    //INVISIBLE HELPER PLANE
     plane = new CSS3D.Mesh( new CSS3D.PlaneGeometry( 2000, 2000, 18, 18), new CSS3D.MeshBasicMaterial() );
     plane.visible = false;
     this.cssScene.add( plane );
 
     //Dragging functions
-
     this.canvas.onmousemove = mouseMoveFxn.bind(this)
     function mouseMoveFxn(event) {
       event.preventDefault()
@@ -67,10 +59,6 @@ class EmailList extends React.Component {
 
       var mouse_x = ( (x / this.canvasArea.width) * 2 - 1);
       var mouse_y = - ( y / this.canvasArea.height) * 2 + 1;
-
-      // console.log("clientX: ", event.clientX)
-      // console.log("canvas", this.canvasArea.width)
-      // console.log("mouse_x", mouse_x)
 
       var vector = new CSS3D.Vector3( mouse_x, mouse_y, 0.5)
       projector.unprojectVector( vector, this.camera)
@@ -149,8 +137,6 @@ class EmailList extends React.Component {
     this.renderer.domElement.style.zIndex = 1;
     this.canvas.appendChild(this.renderer.domElement);
 
-// console.log("renderer: ", this.renderer.domElement)
-
     //CSSRENDERER
     this.renderer2 = new CSS3D.CSS3DRenderer();
     this.renderer2.setSize(this.canvasArea.width, this.canvasArea.height);
@@ -159,9 +145,6 @@ class EmailList extends React.Component {
     this.renderer.domElement.style.right = 0; //mabye
     this.renderer2.domElement.style.zIndex = 5;
     this.canvas.appendChild(this.renderer2.domElement);
-
-    console.log("renderer2: ", this.renderer2.domElement)
-
 
     //Render Children
     this.props.emails.forEach((email, idx) => {
@@ -183,25 +166,19 @@ class EmailList extends React.Component {
 
   }
 
+  //helper function for dragging
   addToArray = (obj) => {
     this.emailsArray.push(obj)
   }
 
   componentWillUnmount() {
-    // this.canvas.removeEventListener('onmousemove', this.mouseMoveFxn)
-    // this.canvas.removeEventListener('onmouseup', this.mouseUpFxn)
-    // this.canvas.removeEventListener('onmousedown', this.mouseDownFxn)
     this.canvas.removeChild(this.renderer.domElement)
     this.canvas.removeChild(this.renderer2.domElement)
     this.canvasContainer.removeChild(this.canvas)
-
- }
+  }
 
   render() {
-    return(
-      <div>
-      </div>
-    )
+    return(<div></div>)
   }
 
 }

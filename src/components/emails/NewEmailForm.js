@@ -65,7 +65,6 @@ export default class NewEmailForm extends React.Component {
           <textarea rows="20" cols="75" placeholder="Compose your email here" onChange={this.handleContentChange} value={this.state.content}/>
 
           <p><input type="submit" value="Send"/></p>
-          <hr/>
         </form>
     )
   }
