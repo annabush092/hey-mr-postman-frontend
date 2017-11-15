@@ -66,14 +66,17 @@ props = {
           <div>
 
             <div id="SideBar">
+              Welcome,
+              <h3>{this.props.user.name}</h3>
+              <hr/>
               <NavBar id={this.props.user.id}/>
-              <h2>Welcome, {this.props.user.name}</h2>
+              <hr/>
               <FilterForm handleSelect={this.handleSelect} emailFilter={this.state.emailFilter}/>
             </div>
 
             <div id="CanvasContainer" key={this.state.emailFilter}>
               <Route exact path={currentPath + `/received`} render={()=>(
-                <EmailList key="received-emails" emails={filteredEmails} readEmails={this.state.readEmails}/>
+                <EmailList key="received-emails" emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail}/>
               )}/>
               <Route exact path={currentPath + `/sent`} render={()=>(
                 <EmailList key="sent-emails" emails={filteredEmails} readEmails={this.state.readEmails}/>
@@ -92,35 +95,3 @@ props = {
 }
 
 export default EmailContainer
-// //
-// // <div id="email-list" style={{width: "500px", height: "500px"}}>
-// //   <EmailList emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail} emailFilter={this.state.emailFilter}/>
-// // </div>
-//
-//
-//
-//       // <div id="Container">
-//
-//         // <div id="SideBar">
-//         //   <NavBar/>
-//         //     <h2>Welcome, {this.props.user.name}</h2>
-//         //     <FilterForm handleSelect={this.handleSelect} emailFilter={this.state.emailFilter}/>
-//         // </div>
-//
-//
-//         <div id="Canvas">
-//           <Route path={currentPath} render={()=>(
-//             (this.state.emailFilter === "received_emails") ? (
-//               <Redirect to={currentPath + '/received'}/>
-//             ) : (
-//               <Redirect to={currentPath + '/sent'}/>
-//             )
-//           )}/>
-//           <Route exact path={currentPath + `/${filterRoute}`} render={()=>(
-//             <EmailList emails={filteredEmails} readEmails={this.state.readEmails}/>
-//           )}/>
-//           <Route exact path={currentPath + '/new'} render={()=>(
-//             <NewEmailForm user={this.props.user}/>
-//           )}/>
-//         </div>
-//       </div>

@@ -11,14 +11,12 @@ class UserContainer extends Component {
   }
 
   submitUserInfo = (input) => {
-    console.log("submitted form")
     fetchUserEmails(input).then(user => {
       this.setState({ user })
     })
   }
 
   render(){
-
     return(
       <div id="Container">
 
@@ -28,9 +26,7 @@ class UserContainer extends Component {
           < Redirect to='/sign-in' />
         )}
 
-        <div id="SideBar">
-          <Route exact path={"/sign-in"} render={(props) => (<LoginForm submitUserInfo={this.submitUserInfo}/>)}/>
-        </div>
+        <Route exact path={"/sign-in"} render={(props) => (<LoginForm submitUserInfo={this.submitUserInfo}/>)}/>
 
         <Route path={"/users/:id"} render={(props) => (
           <EmailContainer {...props} user={this.state.user} sent_emails={this.state.user.sent_emails} received_emails={this.state.user.received_emails}/>
@@ -42,22 +38,3 @@ class UserContainer extends Component {
 }
 
 export default UserContainer
-
-
-
-
-
-
-
-
-
-
-// <LoginForm submitUserInfo={this.submitUserInfo}/>
-// <Route path={'/users/' + ":id"} render={(props) => (
-//     <EmailContainer
-//       {...props}
-//       user={this.state.user}
-//       sent_emails={this.state.user.sent_emails}
-//       received_emails={this.state.user.received_emails}
-//     />)}
-// />
