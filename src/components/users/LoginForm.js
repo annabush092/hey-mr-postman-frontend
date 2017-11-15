@@ -3,7 +3,7 @@ import '../../App.css'
 
 export default class LoginForm extends React.Component {
   state = {
-    input: ""
+    input: "Markus Gleichner DVM"
   }
 
   handleChange = (event) => {

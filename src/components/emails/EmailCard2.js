@@ -67,9 +67,11 @@ export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEma
 
     //CUBE OBJECT
     var cubeGeometry = new CSS3D.CubeGeometry(300, 200, 10) //maybe CubeGeometry
-    var cubeMaterial = new CSS3D.MeshLambertMaterial({color: "#2a63bf"});
+    var cubeMaterial = new CSS3D.MeshNormalMaterial();
     var cubeMesh = new CSS3D.Mesh(cubeGeometry, cubeMaterial)
 
+    cubeGeometry.computeFaceNormals();
+    cubeGeometry.computeVertexNormals();
 
 
 
@@ -83,31 +85,8 @@ export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEma
 
     div.position = cubeMesh.position
 
+
     addToArray(cubeMesh);
     cssScene.add(div);
     glScene.add(cubeMesh)
   }
-
-
-
-  //CUBE OBJECT
-  // var geometry = new CSS3D.BoxGeometry(300, 125, 10) //maybe CubeGeometry
-  // var material = new CSS3D.MeshLambertMaterial({color: "#a0b563"});
-  // var cubeMesh = new CSS3D.Mesh(geometry, material)
-  //   cubeMesh.position.set(0, 250, 0)
-  //   scene.add(cubeMesh)
-
-  //PLANE OBJECT
-  // var planeMaterial = new CSS3D.MeshNormalMaterial();
-  // var planeGeometry = new CSS3D.PlaneGeometry(300, 125)
-  // var planeMesh = new CSS3D.Mesh( planeGeometry, planeMaterial );
-  //   planeMesh.position.set(0, 0, 0)
-  //   scene.add(planeMesh)
-
-  //LIGHT1
-  // var keyLight = new CSS3D.AmbientLight(0xffffff, 0.5)
-  // cssScene.add(keyLight);
-
-  //LIGHT2
-  // var pointLight = new CSS3D.PointLight(0xffffff, 0.5)
-  // cssScene.add(pointLight);
