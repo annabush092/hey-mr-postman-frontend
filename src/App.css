@@ -3,14 +3,33 @@
   height: 100%;
   background-color: red;
 }
+
+#SignInBar{
+  background-color: black;
+  color: white;
+  width: 25%;
+  display: block;
+  box-sizing: border-box;
+  float: left;
+  z-index: 500;
+  padding-top: 50px;
+  padding-bottom: 900px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 #SideBar{
   background-color: black;
   color: white;
-  height: 100%;
   width: 25%;
   display: block;
+  box-sizing: border-box;
   float: left;
   z-index: 500;
+  padding-top: 50px;
+  padding-bottom: 900px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 #Canvas{
@@ -29,4 +48,10 @@
   display: block;
   float: left;
   position: relative;
+}
+
+#new-email-form {
+  box-sizing: border-box;
+  padding: 30px;
+  background-color: #9ebdef;
 }
