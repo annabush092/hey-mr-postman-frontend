@@ -40,11 +40,11 @@ props = {
   }
 
   handleOpenEmail = (email) => {
-    if(!this.state.readEmails.includes(email.props.id)) {
+    if(!this.state.readEmails.includes(email.id)) {
       this.setState({
-        readEmails: [...this.state.readEmails, email.props.id]
+        readEmails: [...this.state.readEmails, email.id]
       })
-      markAsRead(email.props)
+      markAsRead(email)
       .then(json => console.log("WE MADE IT AAAAAAAH", this.state.readEmails))
     }
   }
@@ -79,7 +79,7 @@ props = {
                 <EmailList key="received-emails" emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail}/>
               )}/>
               <Route exact path={currentPath + `/sent`} render={()=>(
-                <EmailList key="sent-emails" emails={filteredEmails} readEmails={this.state.readEmails}/>
+                <EmailList key="sent-emails" emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail}/>
               )}/>
               <Route exact path={currentPath + '/new'} render={()=>(
                 <NewEmailForm key="new-email" user={this.props.user}/>

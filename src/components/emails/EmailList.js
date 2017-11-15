@@ -169,7 +169,7 @@ class EmailList extends React.Component {
       if(this.props.readEmails.includes(email.id)){
         emailProps.read = true
       }
-      emailCardTwo(emailProps, this.cssScene, this.glScene, this.addToArray.bind(this))
+      emailCardTwo(emailProps, this.cssScene, this.glScene, this.addToArray.bind(this), this.props.handleOpenEmail)
     })
 
     //start animation

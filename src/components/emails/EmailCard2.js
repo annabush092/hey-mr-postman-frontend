@@ -2,7 +2,7 @@
 import CSS3D from 'css3d';
 import { randomColor } from 'randomcolor'
 
-export function emailCardTwo(props, cssScene, glScene, addToArray) {
+export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEmail) {
 
     //HTML TO APPEND
     let element = document.createElement('div');
@@ -44,6 +44,8 @@ export function emailCardTwo(props, cssScene, glScene, addToArray) {
     button.addEventListener("click", ()=> {
       const  myEmailContent = document.getElementById(`email-content-${props.user.id}`)
 
+      handleOpenEmail(props)
+
       if (myEmailContent.innerHTML === ""){
         myEmailContent.innerHTML += props.content
 
@@ -74,8 +76,10 @@ export function emailCardTwo(props, cssScene, glScene, addToArray) {
 
     cubeMesh.position.set(
           Math.random() * 1000 - 500,
-          Math.random() * 600 - 300,
+          Math.random() * 950 - 475,
           Math.random() * 800 - 400)
+
+          console.log(cubeMesh.position)
 
     div.position = cubeMesh.position
 
