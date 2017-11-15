@@ -1,113 +1,81 @@
-
 import CSS3D from 'css3d';
 import { randomColor } from 'randomcolor'
 
 export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEmail) {
 
-    //HTML TO APPEND
-    let element = document.createElement('div');
-    let button = document.createElement('BUTTON');
-
-    button.innerHTML= "See details"
-    element.innerHTML = `
-    <h3>From: ${props.user.name}</h3>
-    <p>Email: ${props.user.email_address}</p>
-    <p>Subject: ${props.subject}</p>
-    <hr>
-    `
-    element.appendChild(button)
-    element.className = "three-div"
-
-    let emailContent = document.createElement('div')
-    emailContent.setAttribute("id", `email-content-${props.user.id}` )
-    element.appendChild(emailContent)
-
+    // Create email div
     let emailColor = randomColor();
+    let emailDiv = document.createElement('div');
+    emailDiv.style.cssText = `
+      width: 305px;
+      height: 200px;
+      background: ${emailColor};
+      color: black;
+      fontSize: 2em;
+    `
+
+    //Create email overview div
+    let element = document.createElement('div');
+    element.innerHTML = `
+      <h3>To: ${props.recipient.name}</h3>
+      <h3>From: ${props.user.name}</h3>
+      <p>Subject: ${props.subject}</p>
+    `
     element.style.cssText = `
-        width: 300px;
-        height: 200px;
-        background: ${emailColor};
-        color: #E60000;
-        fontFamily: Arial, Helvetica, Sans-serif;
-        fontSize: 2em;
-        padding: 2em;
-        overflow: scroll;
-      `
+      width: 305px;
+      background: ${emailColor};
+      padding-left: 2em;
+      padding-right: 2em;
+      padding-top: 2em;
+      padding-bottom: 2em;
+    `
+    emailDiv.appendChild(element)
 
+    //Create show button
+    let showButton = document.createElement('BUTTON');
+    showButton.innerHTML= "See details"
+    element.appendChild(showButton)
 
-    // let contentDisplay = "none"
-    // emailContent.style.cssText = `
-    //     display: ${contentDisplay}
-    // `
+    //Create email content
+    let emailContent = document.createElement('div')
+    emailContent.setAttribute("id", `email-content-${props.user.id}`)
+    emailContent.style.cssText = `
+      background: ${emailColor};
+      width: 100%;
+      padding-left: 2em;
+      padding-right: 2em;
+      padding-bottom: 2em;
+    `
+    emailDiv.appendChild(emailContent)
 
-
-    button.addEventListener("click", ()=> {
-      const  myEmailContent = document.getElementById(`email-content-${props.user.id}`)
-
-      handleOpenEmail(props)
-
-      if (myEmailContent.innerHTML === ""){
-        myEmailContent.innerHTML += props.content
-
-        myEmailContent.style.cssText = `
-          background: ${emailColor};
-        `
+    //add event listener to showButton to add/remove emailContent
+    showButton.addEventListener("click", ()=> {
+      if (emailContent.innerHTML === ""){
+        emailContent.innerHTML = props.content
       } else {
-        myEmailContent.innerHTML = ""
+        emailContent.innerHTML = ""
       }
 
-
-      console.log("myEmailContent", typeof myEmailContent.innerHTML)
-
-      // contentDisplay === "none" ? (contentDisplay = "block") : (contentDisplay = "none")
-      // element.innerHTML += `<p> ${props.content} </p>`
+      //mark email as read (if it is a received unread email)
+      handleOpenEmail(props)
     })
 
-    let div = new CSS3D.CSS3DObject(element);
+    //CUBE OBJECT for dragging functionality
+    let div = new CSS3D.CSS3DObject(emailDiv);
 
-    //CUBE OBJECT
     var cubeGeometry = new CSS3D.CubeGeometry(300, 200, 10) //maybe CubeGeometry
     var cubeMaterial = new CSS3D.MeshLambertMaterial({color: "#2a63bf"});
     var cubeMesh = new CSS3D.Mesh(cubeGeometry, cubeMaterial)
-
-
-
-
 
     cubeMesh.position.set(
           Math.random() * 1000 - 500,
           Math.random() * 950 - 475,
           Math.random() * 800 - 400)
-
-          console.log(cubeMesh.position)
-
     div.position = cubeMesh.position
 
     addToArray(cubeMesh);
+
+    //render email
     cssScene.add(div);
     glScene.add(cubeMesh)
   }
-
-
-
-  //CUBE OBJECT
-  // var geometry = new CSS3D.BoxGeometry(300, 125, 10) //maybe CubeGeometry
-  // var material = new CSS3D.MeshLambertMaterial({color: "#a0b563"});
-  // var cubeMesh = new CSS3D.Mesh(geometry, material)
-  //   cubeMesh.position.set(0, 250, 0)
-  //   scene.add(cubeMesh)
-
-  //PLANE OBJECT
-  // var planeMaterial = new CSS3D.MeshNormalMaterial();
-  // var planeGeometry = new CSS3D.PlaneGeometry(300, 125)
-  // var planeMesh = new CSS3D.Mesh( planeGeometry, planeMaterial );
-  //   planeMesh.position.set(0, 0, 0)
-  //   scene.add(planeMesh)
-
-  //LIGHT1
-  // var keyLight = new CSS3D.AmbientLight(0xffffff, 0.5)
-  // cssScene.add(keyLight);
-
-  //LIGHT2
-  // var pointLight = new CSS3D.PointLight(0xffffff, 0.5)
-  // cssScene.add(pointLight);

@@ -40,7 +40,7 @@ props = {
   }
 
   handleOpenEmail = (email) => {
-    if(!this.state.readEmails.includes(email.id)) {
+    if(!this.state.readEmails.includes(email.id) && this.state.emailFilter === "received_emails") {
       this.setState({
         readEmails: [...this.state.readEmails, email.id]
       })
@@ -51,7 +51,6 @@ props = {
 
   render(){
     const currentPath = this.props.match.url
-    const filterRoute = this.state.emailFilter.split("_")[0]
     const filteredEmails = this.props[this.state.emailFilter]
     return(
 
