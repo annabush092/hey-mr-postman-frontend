@@ -85,8 +85,6 @@ class EmailList extends React.Component {
 
       var boundingRect = this.canvas.getBoundingClientRect();
 
-      console.log("CANVAS: ", boundingRect)
-
       var x = (event.clientX - boundingRect.left)
       var y = (event.clientY - boundingRect.top)
 
@@ -151,8 +149,10 @@ class EmailList extends React.Component {
       let emailProps = {...email}
       if(this.props.readEmails.includes(email.id)){
         emailProps.read = true
+      }else {
+        emailProps.read = false
       }
-      emailCardTwo(emailProps, this.cssScene, this.glScene, this.addToArray.bind(this), this.props.handleOpenEmail)
+      emailCardTwo(emailProps, this.cssScene, this.glScene, this.addToArray.bind(this), this.props.handleOpenEmail, this.props.handleDeleteEmail)
     })
 
     //start animation
