@@ -1,4 +1,5 @@
 import React from 'react'
+import '../../App.css'
 
 export default class LoginForm extends React.Component {
   state = {
@@ -22,11 +23,13 @@ export default class LoginForm extends React.Component {
 
   render() {
     return (
+      <div id="SignInBar">
       <form onSubmit={this.handleSubmit}>
         <label> Enter Name </label>
         <input type="text" onChange={this.handleChange} value={this.state.input} />
         <input type="submit" />
       </form>
+      </div>
     )
   }
 }

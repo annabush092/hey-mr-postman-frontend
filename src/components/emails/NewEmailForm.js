@@ -1,5 +1,6 @@
 import React from 'react'
 import {sendEmail} from '../../services/EmailServices.js'
+import '../../App.css'
 
 export default class NewEmailForm extends React.Component {
   // props = {user: user from EmailContainer}
@@ -48,7 +49,7 @@ export default class NewEmailForm extends React.Component {
 
   render() {
     return(
-        <form onSubmit={this.handleSubmit}>
+        <form id="new-email-form" onSubmit={this.handleSubmit}>
           <p>
             <label>To: </label>
             <input type="email" placeholder="email" onChange={this.handleEmailChange} value={this.state.recipientEmail}/>
@@ -61,7 +62,7 @@ export default class NewEmailForm extends React.Component {
             <input type="text" placeholder="your subject here" onChange={this.handleSubjectChange} value={this.state.subject}/>
           </p>
 
-          <textarea placeholder="Compose your email here" onChange={this.handleContentChange} value={this.state.content}/>
+          <textarea rows="20" cols="75" placeholder="Compose your email here" onChange={this.handleContentChange} value={this.state.content}/>
 
           <p><input type="submit" value="Send"/></p>
           <hr/>
