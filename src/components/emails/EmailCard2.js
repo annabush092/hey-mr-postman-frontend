@@ -1,38 +1,59 @@
 import CSS3D from 'css3d';
 import { randomColor } from 'randomcolor'
 
-export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEmail) {
+export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEmail, handleDeleteEmail) {
 
     // Create email div
     let emailColor = randomColor();
+    let textColor = "black";
+    if(props.read) {
+      textColor = "gray";
+    }
     let emailDiv = document.createElement('div');
     emailDiv.style.cssText = `
-      width: 305px;
-      height: 200px;
+      width: 300px;
+      height: 205px;
       background: ${emailColor};
-      color: black;
+      color: ${textColor};
       fontSize: 2em;
     `
 
-    //Create email overview div
-    let element = document.createElement('div');
-    element.innerHTML = `
-      <h3>To: ${props.recipient.name}</h3>
-      <h3>From: ${props.user.name}</h3>
-      <p>Subject: ${props.subject}</p>
-    `
-    element.style.cssText = `
-      width: 305px;
+    //Create delete BUTTON
+    let deleteDiv = document.createElement("div")
+    deleteDiv.style.cssText = `
+      width: 300px;
       background: ${emailColor};
       padding-left: 2em;
       padding-right: 2em;
       padding-top: 2em;
+    `
+    let deleteButton = document.createElement("button")
+    deleteButton.innerHTML = "Delete Email"
+    deleteButton.style.cssText = `
+      float: right;
+    `
+    deleteDiv.appendChild(deleteButton)
+    emailDiv.appendChild(deleteDiv)
+
+    //Create email overview div
+    let element = document.createElement('div');
+    element.innerHTML += `
+      </br>
+      <h3>To: ${props.recipient.email_address}</h3>
+      <h3>From: ${props.user.email_address}</h3>
+      <p>Subject: ${props.subject}</p>
+    `
+    element.style.cssText = `
+      width: 300px;
+      background: ${emailColor};
+      padding-left: 2em;
+      padding-right: 2em;
       padding-bottom: 2em;
     `
     emailDiv.appendChild(element)
 
     //Create show button
-    let showButton = document.createElement('BUTTON');
+    let showButton = document.createElement('button');
     showButton.innerHTML= "See details"
     element.appendChild(showButton)
 
@@ -49,15 +70,27 @@ export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEma
     emailDiv.appendChild(emailContent)
 
     //add event listener to showButton to add/remove emailContent
-    showButton.addEventListener("click", ()=> {
+    showButton.addEventListener("click", () => {
+      console.log("pressed show button")
       if (emailContent.innerHTML === ""){
-        emailContent.innerHTML = props.content
+        emailContent.innerHTML = `
+          Dear ${props.recipient.name},<br>
+          <p>${props.content}</p>
+          <p>Love,</br>
+          ${props.user.name}</p>
+        `
       } else {
         emailContent.innerHTML = ""
       }
 
       //mark email as read (if it is a received unread email)
       handleOpenEmail(props)
+    })
+
+    //add event listener to deleteButton
+    deleteButton.addEventListener("click", () => {
+      console.log("pressed delete button")
+      handleDeleteEmail(props.id)
     })
 
     //CUBE OBJECT for dragging functionality

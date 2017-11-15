@@ -4,7 +4,7 @@ import NavBar from '../NavBar.js'
 import EmailList from './EmailList.js'
 import FilterForm from './FilterForm.js'
 import NewEmailForm from './NewEmailForm.js'
-import { markAsRead } from '../../services/EmailServices.js'
+import { markAsRead, deleteEmail } from '../../services/EmailServices.js'
 
 class EmailContainer extends Component{
 /*
@@ -49,6 +49,11 @@ props = {
     }
   }
 
+  handleDeleteEmail = (emailID) => {
+    deleteEmail(emailID)
+    .then(json => console.log("DELETED EMAIL", json))
+  }
+
   render(){
     const currentPath = this.props.match.url
     const filteredEmails = this.props[this.state.emailFilter]
@@ -75,10 +80,10 @@ props = {
 
             <div id="CanvasContainer" key={this.state.emailFilter}>
               <Route exact path={currentPath + `/received`} render={()=>(
-                <EmailList key="received-emails" emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail}/>
+                <EmailList key="received-emails" emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail} handleDeleteEmail={this.handleDeleteEmail}/>
               )}/>
               <Route exact path={currentPath + `/sent`} render={()=>(
-                <EmailList key="sent-emails" emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail}/>
+                <EmailList key="sent-emails" emails={filteredEmails} readEmails={this.state.readEmails} handleOpenEmail={this.handleOpenEmail} handleDeleteEmail={this.handleDeleteEmail}/>
               )}/>
               <Route exact path={currentPath + '/new'} render={()=>(
                 <NewEmailForm key="new-email" user={this.props.user}/>
