@@ -15,13 +15,7 @@ class EmailList extends React.Component {
     this.canvasContainer = document.getElementById('CanvasContainer')
     this.canvasContainer.appendChild(this.canvas)
 
-
-    // this.canvas = document.getElementById("Canvas")
-
     this.canvasArea = this.canvas.getBoundingClientRect()
-
-
-
 
     //CSS3D SCENE
     this.cssScene = new CSS3D.Scene();
@@ -30,7 +24,7 @@ class EmailList extends React.Component {
     this.glScene = new CSS3D.Scene();
 
     //CAMERA
-    this.camera = new CSS3D.PerspectiveCamera(45, this.canvasArea.width / this.canvasArea.height, 1, 1);
+    this.camera = new CSS3D.PerspectiveCamera(45, this.canvasArea.width / this.canvasArea.height, 1, 1000);
     this.camera.position.set(0, 0, 2000)
     // this.camera.lookAt(this.glScene.position)
 
@@ -39,20 +33,18 @@ class EmailList extends React.Component {
     this.keyLight.position.set(0, 0, 2000)
     this.glScene.add(this.keyLight);
 
-
+    //INVISIBLE HELPER PLANE
     var plane;
     var selectedObject;
     var projector = new CSS3D.Projector();
     var offset = new CSS3D.Vector3();
     this.emailsArray = [];
 
-    //INVISIBLE HELPER PLANE
     plane = new CSS3D.Mesh( new CSS3D.PlaneGeometry( 2000, 2000, 18, 18), new CSS3D.MeshBasicMaterial() );
     plane.visible = false;
     // this.cssScene.add( plane );
 
     //Dragging functions
-
     this.canvas.onmousemove = mouseMoveFxn.bind(this)
     function mouseMoveFxn(event) {
       event.preventDefault()
@@ -63,7 +55,6 @@ class EmailList extends React.Component {
 
       var mouse_x = ( (x / this.canvasArea.width) * 2 - 1);
       var mouse_y = - ( y / this.canvasArea.height) * 2 + 1;
-
 
       var vector = new CSS3D.Vector3( mouse_x, mouse_y, 0.5)
       projector.unprojectVector( vector, this.camera)
@@ -89,8 +80,6 @@ class EmailList extends React.Component {
       event.preventDefault()
 
       var boundingRect = this.canvas.getBoundingClientRect();
-
-      console.log("CANVAS: ", boundingRect)
 
       var x = (event.clientX - boundingRect.left)
       var y = (event.clientY - boundingRect.top)
@@ -154,16 +143,15 @@ class EmailList extends React.Component {
     this.renderer2.domElement.style.zIndex = 5;
     this.canvas.appendChild(this.renderer2.domElement);
 
-    console.log("renderer2: ", this.renderer2.domElement)
-
-
     //Render Children
     this.props.emails.forEach((email, idx) => {
       let emailProps = {...email}
       if(this.props.readEmails.includes(email.id)){
         emailProps.read = true
+      }else {
+        emailProps.read = false
       }
-      emailCardTwo(emailProps, this.cssScene, this.glScene, this.addToArray.bind(this), this.props.handleOpenEmail)
+      emailCardTwo(emailProps, this.cssScene, this.glScene, this.addToArray.bind(this), this.props.handleOpenEmail, this.props.handleDeleteEmail)
     })
 
     //SKYBOX!!!!!!
@@ -203,6 +191,7 @@ class EmailList extends React.Component {
 
   }
 
+  //helper function for dragging
   addToArray = (obj) => {
     this.emailsArray.push(obj)
   }
@@ -211,14 +200,10 @@ class EmailList extends React.Component {
     this.canvas.removeChild(this.renderer.domElement)
     this.canvas.removeChild(this.renderer2.domElement)
     this.canvasContainer.removeChild(this.canvas)
-
- }
+  }
 
   render() {
-    return(
-      <div>
-      </div>
-    )
+    return(<div></div>)
   }
 
 }

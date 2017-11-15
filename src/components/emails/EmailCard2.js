@@ -67,15 +67,11 @@ export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEma
 
     //CUBE OBJECT
     var cubeGeometry = new CSS3D.CubeGeometry(300, 200, 10) //maybe CubeGeometry
-    var cubeMaterial = new CSS3D.MeshNormalMaterial();
+    var cubeMaterial = new CSS3D.MeshNormalMaterial({color: "#2a63bf"});
     var cubeMesh = new CSS3D.Mesh(cubeGeometry, cubeMaterial)
 
-    cubeGeometry.computeFaceNormals();
-    cubeGeometry.computeVertexNormals();
 
-
-
-
+    
     cubeMesh.position.set(
           Math.random() * 1000 - 500,
           Math.random() * 950 - 475,

@@ -1,3 +1,27 @@
+
+  //CUBE OBJECT
+  // var geometry = new CSS3D.BoxGeometry(300, 125, 10) //maybe CubeGeometry
+  // var material = new CSS3D.MeshLambertMaterial({color: "#a0b563"});
+  // var cubeMesh = new CSS3D.Mesh(geometry, material)
+  //   cubeMesh.position.set(0, 250, 0)
+  //   scene.add(cubeMesh)
+
+  //PLANE OBJECT
+  // var planeMaterial = new CSS3D.MeshNormalMaterial();
+  // var planeGeometry = new CSS3D.PlaneGeometry(300, 125)
+  // var planeMesh = new CSS3D.Mesh( planeGeometry, planeMaterial );
+  //   planeMesh.position.set(0, 0, 0)
+  //   scene.add(planeMesh)
+
+  //LIGHT1
+  // var keyLight = new CSS3D.AmbientLight(0xffffff, 0.5)
+  // cssScene.add(keyLight);
+
+  //LIGHT2
+  // var pointLight = new CSS3D.PointLight(0xffffff, 0.5)
+  // cssScene.add(pointLight);
+
+
 // CANVAS for clickNdrag
 // this.renderer = new CSS3D.WebGLRenderer({ antialias: true });
 // this.renderer.setClearColor(0xffffff, 1)
