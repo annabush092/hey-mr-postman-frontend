@@ -91,8 +91,8 @@ export function emailCardTwo(props, cssScene, glScene, addToArray, handleOpenEma
     deleteButton.addEventListener("click", () => {
       console.log("pressed delete button")
       handleDeleteEmail(props.id)
-      cssScene.remove(div);
-      glScene.remove(cubeMesh)
+      // cssScene.remove(div);
+      // glScene.remove(cubeMesh)
     })
 
     //CUBE OBJECT for dragging functionality
